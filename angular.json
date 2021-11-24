@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "74ef3ac5-8943-4617-a453-687c9da45252"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -31,9 +34,14 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -72,10 +80,17 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "FortTeckTask:build:production"
+              "browserTarget": "FortTeckTask:build:production",
+              "sslKey" : "ssl/server.key",
+              "sslCert" : "ssl/server.crt",
+              "ssl": true
+
             },
             "development": {
-              "browserTarget": "FortTeckTask:build:development"
+              "browserTarget": "FortTeckTask:build:development",
+              "sslKey" : "ssl/server.key",
+              "sslCert" : "ssl/server.crt",
+              "ssl": true
             }
           },
           "defaultConfiguration": "development"
