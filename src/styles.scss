@@ -5,3 +5,8 @@
 
 /* Importing Datepicker SCSS file. */
 @import "~ngx-bootstrap/datepicker/bs-datepicker";
+
+body {
+  background-color: #eee;
+  border-radius: 30% 30% 0 0;
+}
