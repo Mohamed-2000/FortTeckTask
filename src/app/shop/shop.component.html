@@ -12,7 +12,7 @@
       <div class="col-md-8 cart col-sm-10 mb-md-4 mb-sm-3 sale-banner">
 
 
-          <div class="row border-bottom">
+          <div class="row">
               <ng-container *ngFor="let item of products">
                 <div class="row main align-items-center item-height" [ngClass]="{'border-top': item.id == 2 || item.id == 3 }">
                   <div class="col-2" style="height: 80px; width: 70px;"><img class="img-fluid rounded maxh-100" src="{{item.pictureUrl}}"></div>
@@ -21,7 +21,7 @@
                       <div><span class="text-muted" >Color:</span>{{item.color}}</div>
                       <div><span class=" text-muted">Size:</span>{{item.size}}</div>
                   </div>
-                  <div class="d-flex col" [ngStyle]="{'padding': item.id == 3 ? '0px' : '1px' }">
+                  <div class="d-flex col" [ngClass]="{'col-2': item.id == 3 }" [ngStyle]="{'padding': item.id == 3 ? '0px' : '1px' }">
                       <del *ngIf="item.id == 2 || item.id == 1" class="text-danger me-2">&dollar;{{item.price}}</del>
                       <div [ngClass]="{'custom-sale-price': item.id == 3 }" >&dollar;{{item.salePrice}}</div>
                   </div>
@@ -31,7 +31,7 @@
                       <p>Quantity</p>
                     </div>
                     <div class="col-6 mt-1">
-                      <input type="number" class="form-control form-control-lg text-center" value="{{item.quantity}}">
+                      <input type="number" class="form-control form-control-lg text-center" (change)="addToCart($event, item)" [value]="item.quantity" >
 
                     </div>
 

@@ -9,12 +9,33 @@ import { ShopService } from './shop.service';
 })
 export class ShopComponent implements OnInit {
 
-  products:Product[] = [];
+  public products:Product[] = [];
+  public OrderSummary !: number;
+
+  public previous_value:number = 0;
+
   constructor(public productSer:ShopService) { }
 
   ngOnInit(): void {
-    this.products = this.productSer.getProducts();
+    this.productSer.getProducts()
+    .subscribe(res => {
+      this.products = res;
+      this.OrderSummary = this.productSer.getTotalPrice();
 
+      this.products.forEach((a:any) => {
+
+        Object.assign(a,{quantity:a.quantity,total:a.price});
+      });
+    });
+  }
+
+  addToCart(e:any, item:Product) {
+    console.log(e.target.value);
+    if (e.target.value >= 1 && this.previous_value < e.target.value) {
+      this.productSer.addtoCart(item)
+
+    }
+    this.previous_value = e.target.value;
   }
 
 }
