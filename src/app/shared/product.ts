@@ -1,14 +1,14 @@
 export class Product {
 
   constructor(
-    id: number = 0,
-    name?: string,
-    color?: string,
-    size ?: string,
-    price?: number,
-    salePrice?:number,
-    pictureUrl?: string,
-    quantity ?: number,
+    public id: number = 0,
+    public name?: string,
+    public color?: string,
+    public size ?: string,
+    public price?: number,
+    public salePrice?:number,
+    public pictureUrl?: string,
+    public quantity ?: number,
     ) {
 
 
