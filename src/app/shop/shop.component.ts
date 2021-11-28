@@ -27,15 +27,40 @@ export class ShopComponent implements OnInit {
         Object.assign(a,{quantity:a.quantity,total:a.price});
       });
     });
+    console.log(this.products);
+
   }
 
-  addToCart(e:any, item:Product) {
-    console.log(e.target.value);
-    if (e.target.value >= 1 && this.previous_value < e.target.value) {
-      this.productSer.addtoCart(item)
+  // addToCart(e:any, item:Product) {
+  //   console.log(e.target.value);
+  //   if (e.target.value >= 1) {
 
-    }
-    this.previous_value = e.target.value;
+  //     if (this.previous_value < e.target.value) {
+  //       if (item.quantity != undefined) {
+  //         item.quantity = item.quantity + 1;
+  //       }
+  //       this.productSer.addtoCart(item)
+  //     }
+  //     else {
+  //       if (item.quantity != undefined) {
+  //         item.quantity -=  1;
+  //         this.productSer.removeCartItem(item);
+  //       }
+  //     }
+
+
+  //   }
+  //   else{
+
+  //     this.productSer.removeCartItem(item);
+
+  //   }
+  //   this.previous_value = e.target.value;
+  // }
+
+  addToCart(e:any, item:any){
+    console.log(item);
+
   }
 
 }

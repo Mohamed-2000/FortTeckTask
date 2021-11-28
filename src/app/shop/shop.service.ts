@@ -9,9 +9,9 @@ import { BehaviorSubject } from 'rxjs';
 export class ShopService {
     public cartItemList : any =[];
     public productList = new BehaviorSubject<any>([
-      new Product(1, "Air Red Pants", "Red/White", "L", 200.00, 100.00, "../../assets/img/airRedPants.jpg", 1),
-    new Product(2, "Count Dri-Fit", "Dark Blue", "L", 200.00, 100.00, "../../assets/img/count Dri-fit.jpg", 1),
-    new Product(3, "SportsWear Heritage Windrunner", "Blue/White", "L", 200.00, 200.00, "../../assets/img/sweaters.jpg", 1),
+      new Product(1, "Air Red Pants", "Red/White", "L", 200.00, 100.00, "../../assets/img/airRedPants.jpg", 0),
+    new Product(2, "Count Dri-Fit", "Dark Blue", "L", 200.00, 100.00, "../../assets/img/count Dri-fit.jpg", 0),
+    new Product(3, "SportsWear Heritage Windrunner", "Blue/White", "L", 200.00, 200.00, "../../assets/img/sweaters.jpg", 0),
     ]);
 
 
@@ -33,7 +33,14 @@ export class ShopService {
     console.log(this.cartItemList.length)
   }
 
-
+  removeCartItem(product: any){
+    this.cartItemList.map((a:any, index:any)=>{
+      if(product.id=== a.id){
+        this.cartItemList.splice(index,1);
+      }
+    })
+    this.productList.next(this.cartItemList);
+  }
 
   getTotalPrice() : number{
     let orderSummary = 0;

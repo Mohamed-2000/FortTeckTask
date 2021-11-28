@@ -28,7 +28,7 @@ export class NavBarComponent implements OnInit {
     this.productSer.getProducts()
     .subscribe(res=>{
       this.totalItem = res.length;
-      console.log("hello"+this.totalItem);
+      // console.log("hello"+this.totalItem);
 
     })
   }
