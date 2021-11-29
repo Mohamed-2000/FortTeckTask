@@ -12,6 +12,7 @@ export class ShopComponent implements OnInit {
   public products:Product[] = [];
   public OrderSummary !: number;
 
+  // public previous_value:any;
   public previous_value:number = 0;
 
   constructor(public productSer:ShopService) { }
@@ -20,13 +21,10 @@ export class ShopComponent implements OnInit {
     this.productSer.getProducts()
     .subscribe(res => {
       this.products = res;
-      this.OrderSummary = this.productSer.getTotalPrice();
 
-      this.products.forEach((a:any) => {
 
-        Object.assign(a,{quantity:a.quantity,total:a.price});
-      });
     });
+    this.loadCart();
     console.log(this.products);
 
   }
@@ -58,9 +56,57 @@ export class ShopComponent implements OnInit {
   //   this.previous_value = e.target.value;
   // }
 
-  addToCart(e:any, item:any){
-    console.log(item);
+  incQnt(e:any, prodId:any, qnt:any){
 
+    // qnt = e.target.value;
+    console.log(prodId);
+    // console.log(qnt);
+    for (let i = 0; i < this.products.length; i++) {
+
+      if (this.products[i].id === prodId) {
+
+          if (this.previous_value < e.target.value)
+          {
+              this.products[i].quantity = parseInt(qnt) + 1;
+              console.log(this.products[i].quantity);
+              alert("increment");
+
+
+          }
+          else if (this.previous_value > e.target.value) {
+              if (qnt != 1) {
+                this.products[i].quantity = parseInt(qnt) - 1;
+                console.log(this.products[i].quantity);
+                alert("decrement");
+              }
+
+          }
+
+          this.previous_value = e.target.value ;
+      }
+    }
+
+  }
+
+  // total:number = 0;
+  // loadCart () {
+  //   this.total = this.products.reduce(function (acc, val) {
+
+  //       return acc + (val.salePrice * val.quantity);
+
+  //   }, 0);
+  // }
+
+
+  loadCart () {
+    this.OrderSummary = this.productSer.getTotalPrice();
+
+      this.products.forEach((a:any) => {
+
+        Object.assign(a,{quantity:a.quantity,total:a.salePrice * a.quantity});
+      });
+
+      console.log(this.OrderSummary);
   }
 
 }

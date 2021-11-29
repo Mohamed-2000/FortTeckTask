@@ -31,7 +31,7 @@
                       <p>Quantity</p>
                     </div>
                     <div class="col-6 mt-1">
-                      <input type="number" class="form-control form-control-lg text-center" (change)="addToCart($event, item)" [value]="item.quantity" >
+                      <input type="number" class="form-control form-control-lg text-center" (change)="incQnt($event, item.id, item.quantity)" [value]="item.quantity" min="0" max="10" >
 
                     </div>
 
@@ -64,7 +64,7 @@
         </form>
         <div class="row">
             <div class="col text-start">Order Summary</div>
-            <div class="col text-end">&dollar;122</div>
+            <div class="col text-end">&dollar;{{OrderSummary}}</div>
         </div>
 
         <div class="row mt-3 mb-3">
@@ -78,8 +78,9 @@
 
         <hr style="margin: 0px;" class="dash mt-3">
         <div class="custom-timer text-center mt-4">
-          <p  style="font-size: 0.75rem;" class="p-2" >SALE EXPIRING IN: <span class="text-danger">21 HOURS, 31 MINUTES</span> </p>
+          <p  style="font-size: 0.75rem;" class="p-2" >SALE EXPIRING IN: <span id="timer" class="text-danger">21 HOURS, 31 MINUTES</span> </p>
       </div>
       </div>
   </div>
 </div>
+
