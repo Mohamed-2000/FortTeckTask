@@ -13,7 +13,7 @@
 
 
           <div class="row">
-              <ng-container *ngFor="let item of products">
+              <ng-container *ngFor="let item of getCartDetails">
                 <div class="row main align-items-center item-height" [ngClass]="{'border-top': item.id == 2 || item.id == 3 }">
                   <div class="col-2" style="height: 80px; width: 70px;"><img class="img-fluid rounded maxh-100" src="{{item.pictureUrl}}"></div>
                   <div class="col-lg col-sm-5" [ngClass]="{'col-lg-4': item.id == 3 }">
@@ -31,7 +31,17 @@
                       <p>Quantity</p>
                     </div>
                     <div class="col-6 mt-1">
-                      <input type="number" class="form-control form-control-lg text-center" (change)="incQnt($event, item.id, item.quantity)" [value]="item.quantity" min="0" max="10" >
+                      <!-- <input type="number" class="form-control form-control-lg text-center" (change)="incQnt($event, item.id, item.quantity)" [value]="item.quantity" min="0" max="10" > -->
+                      <div  class=" d-flex form-control form-control-lg text-end p-0 justify-content-around">
+                        <div class="col-8 text-center position-relative">
+                          <span style="top: 29%;" class="position-absolute">{{item.quantity}}</span>
+
+                        </div>
+                        <div class="">
+                          <button class="btn pb-0 me-1" (click)="incqnt(item.id, item.quantity)"><i class="fas fa-arrow-up"></i></button>
+                          <button class="btn pt-0 me-1" (click)="decqnt(item.id, item.quantity)"><i class="fal fa-arrow-down"></i></button>
+                        </div>
+                      </div>
 
                     </div>
 
@@ -64,23 +74,30 @@
         </form>
         <div class="row">
             <div class="col text-start">Order Summary</div>
-            <div class="col text-end">&dollar;{{OrderSummary}}</div>
+            <div class="col text-end">&dollar;{{total}}</div>
         </div>
 
         <div class="row mt-3 mb-3">
           <div class="col-8 text-start">Additional Service</div>
-          <div class="col text-end">&dollar;10</div>
+          <div class="col text-end">&dollar;{{serviceTotal}}</div>
         </div>
         <div class="row text-end mt-3">
             <div class="col text-start">Total Amount</div>
-            <div class="col">&dollar;132</div>
+            <div class="col">&dollar;{{total + serviceTotal}}</div>
         </div>
 
         <hr style="margin: 0px;" class="dash mt-3">
         <div class="custom-timer text-center mt-4">
-          <p  style="font-size: 0.75rem;" class="p-2" >SALE EXPIRING IN: <span id="timer" class="text-danger">21 HOURS, 31 MINUTES</span> </p>
+          <p  style="font-size: 0.98rem;" class="p-1" >SALE EXPIRING IN: <span id="timer" class="text-danger">{{expire}}</span> </p>
       </div>
       </div>
   </div>
+  <div class="d-flex">
+    <app-delivery class="col-md-8 col-sm-12" ></app-delivery>
+    <app-additional-service (valueChange)='displayCounter($event)' class="d-flex col-md-4 col-sm-12 justify-content-end mb-3" ></app-additional-service>
+  </div>
+
+
 </div>
+
 

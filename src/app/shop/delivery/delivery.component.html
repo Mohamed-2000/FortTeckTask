@@ -1,0 +1,38 @@
+<section class="mt-3">
+  <div class="d-flex justify-content-around" >
+    <div class="col-md-12 col-sm-12">
+      <div class="">
+        <h5 class="ms-custom" >Delivery</h5>
+
+      </div>
+      <div class="d-flex flex-wrap justify-content-around align-items-center">
+        <div class="d-flex mt-2 col-md-5 mt-3 col-sm-12 ms-sm-5 ms-md-0 m-4" *ngFor="let item of Delivery">
+          <div class="d-flex align-items-center col-1 me-3">
+            <label class="round">
+              <input type="checkbox" checked="checked">
+              <span class="checkmark"></span>
+            </label>
+
+          </div>
+          <div class="d-flex bg-custom delivery-style p-2">
+            <div class="col-3 d-flex align-items-center">
+              <img class="mw-100" src="{{item.img}}" alt="dpd logo">
+            </div>
+            <div class="col-7">
+              <h6>{{item.name}}</h6>
+              <p style="opacity: 0.6;">Expected Delivery :<br> <span>{{item.ExpectedDate}}</span></p>
+            </div>
+            <div class="col-2 d-flex align-items-center">
+              <p class="mt-2"><strong><span *ngIf="item.price != 'Free'">&dollar;</span>{{item.price}}</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <app-additional-service class="d-flex col-md-4 col-sm-12 justify-content-end mb-3"></app-additional-service> -->
+
+  </div>
+
+
+
+</section>

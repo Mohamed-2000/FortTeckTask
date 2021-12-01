@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../shared/product';
+import { Product } from '../shared/_models/product';
 import { ShopService } from './shop.service';
+import {AuthService} from '../shared/_service/auth.service';
 
 @Component({
   selector: 'app-shop',
@@ -15,8 +16,9 @@ export class ShopComponent implements OnInit {
   // public previous_value:any;
   public previous_value:number = 0;
 
-  constructor(public productSer:ShopService) { }
+  constructor(public productSer:ShopService, private auth:AuthService) { }
 
+  addtionalServiceTotal:number=0;
   ngOnInit(): void {
     this.productSer.getProducts()
     .subscribe(res => {
@@ -24,89 +26,112 @@ export class ShopComponent implements OnInit {
 
 
     });
+    this.addCart(this.products);
+    this.cartDetails();
     this.loadCart();
-    console.log(this.products);
 
   }
 
-  // addToCart(e:any, item:Product) {
-  //   console.log(e.target.value);
-  //   if (e.target.value >= 1) {
+// inc(item:any) {
+//   if (item.quantity != 10) {
+//     item.quantity += 1;
+//     console.log(item.quantity);
+//   }
+// }
 
-  //     if (this.previous_value < e.target.value) {
-  //       if (item.quantity != undefined) {
-  //         item.quantity = item.quantity + 1;
-  //       }
-  //       this.productSer.addtoCart(item)
-  //     }
-  //     else {
-  //       if (item.quantity != undefined) {
-  //         item.quantity -=  1;
-  //         this.productSer.removeCartItem(item);
-  //       }
-  //     }
+// dec(item:any) {
+//   if (item.quantity != 1) {
+//     item.quantity -= 1;
+//     console.log(item.quantity);
+//   }
+// }
 
+  addCart(products:any) {
+  localStorage.setItem("lacalCart", JSON.stringify(products));
+  this.cartNumberFunc();
+  }
 
-  //   }
-  //   else{
+  cartNumber:number = 0;
+  cartNumberFunc()
+  {
+    if (localStorage.getItem("lacalCart") != null) {
+        var cartValue = JSON.parse(localStorage.getItem('lacalCart') as string);
+        //console.log(cartCount);
 
-  //     this.productSer.removeCartItem(item);
+        this.cartNumber = cartValue.length;
+        this.auth.cartSubject.next(this.cartNumber);
+        console.log(this.cartNumber);
 
-  //   }
-  //   this.previous_value = e.target.value;
-  // }
+    }
+  }
 
-  incQnt(e:any, prodId:any, qnt:any){
+  getCartDetails:any=[];
+  cartDetails() {
+    if (localStorage.getItem("lacalCart")) {
+      this.getCartDetails = JSON.parse(localStorage.getItem('lacalCart') as string);
+      console.log(this.getCartDetails);
 
-    // qnt = e.target.value;
+    }
+  }
+
+  incqnt(prodId:any, qnt:any) {
     console.log(prodId);
-    // console.log(qnt);
-    for (let i = 0; i < this.products.length; i++) {
+    console.log(qnt);
+    for (let i = 0; i < this.getCartDetails.length; i++) {
+      if (this.getCartDetails[i].id === prodId) {
+        if (qnt != 10)
+          this.getCartDetails[i].quantity = parseInt(qnt) + 1;
+      }
+    }
+    localStorage.setItem('lacalCart', JSON.stringify(this.getCartDetails));
+    this.loadCart();
+  }
+  decqnt(prodId:any, qnt:any) {
+    for (let i = 0; i < this.getCartDetails.length; i++) {
+      if (this.getCartDetails[i].id === prodId) {
+        if (qnt != 1)
+          this.getCartDetails[i].quantity = parseInt(qnt) - 1;
+      }
+    }
+    localStorage.setItem('lacalCart', JSON.stringify(this.getCartDetails));
+    this.loadCart();
+  }
 
-      if (this.products[i].id === prodId) {
-
-          if (this.previous_value < e.target.value)
-          {
-              this.products[i].quantity = parseInt(qnt) + 1;
-              console.log(this.products[i].quantity);
-              alert("increment");
-
-
-          }
-          else if (this.previous_value > e.target.value) {
-              if (qnt != 1) {
-                this.products[i].quantity = parseInt(qnt) - 1;
-                console.log(this.products[i].quantity);
-                alert("decrement");
-              }
-
-          }
-
-          this.previous_value = e.target.value ;
+  total:number = 0;
+  loadCart () {
+    if (localStorage.getItem("lacalCart")){
+      this.getCartDetails = JSON.parse(localStorage.getItem('lacalCart') as string);
+      this.total= this.getCartDetails.reduce(function (acc:any, val:any) {
+        return acc + (val.salePrice * val.quantity);
+      }, 0);
       }
     }
 
+
+    countDownTimer = new Date("Dec 7, 2021, 21:59:59").getTime();
+
+    expire:any;
+    timer = setInterval(() => {
+      var now = new Date().getTime();
+      var distance = this.countDownTimer - now;
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      var h = hours < 10 ? `0${hours}` : hours;
+      var m = minutes < 10 ? `0${minutes}` : minutes;
+      var s = seconds < 10 ? `0${seconds}` : seconds;
+
+      this.expire = h + "HOURS, " + m + ":" + s ;
+      if (distance < 0) {
+        clearInterval(this.timer);
+      }
+    })
+
+    serviceTotal:number=0;
+    displayCounter(count:any) {
+      this.serviceTotal = count;
+      console.log(count);
   }
-
-  // total:number = 0;
-  // loadCart () {
-  //   this.total = this.products.reduce(function (acc, val) {
-
-  //       return acc + (val.salePrice * val.quantity);
-
-  //   }, 0);
-  // }
-
-
-  loadCart () {
-    this.OrderSummary = this.productSer.getTotalPrice();
-
-      this.products.forEach((a:any) => {
-
-        Object.assign(a,{quantity:a.quantity,total:a.salePrice * a.quantity});
-      });
-
-      console.log(this.OrderSummary);
-  }
-
 }

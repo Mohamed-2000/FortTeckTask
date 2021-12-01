@@ -1,0 +1,31 @@
+
+<div class="col-md-10 col-sm-12">
+  <div>
+    <h5>Additional Service</h5>
+  </div>
+  <div class="mt-4">
+    <ng-container *ngFor="let item of addtionalList">
+      <div class="col-11 d-flex bg-custom justify-content-end p-2 align-items-center mb-2">
+        <div class="col-6">
+          <h6>{{item.name}}</h6>
+          <p style="opacity: 0.6;">{{item.category}}</p>
+        </div>
+        <div class="d-flex col-5 align-items-start">
+          <div class="col-6">
+            <p>&dollar;{{item.price}}</p>
+          </div>
+          <div class="col-6 d-flex align-items-center" >
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked"
+              [(ngModel)]="item.isChecked" (ngModelChange)="changed()">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </ng-container>
+
+
+  </div>
+</div>
